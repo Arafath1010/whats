@@ -15,10 +15,11 @@ def generate_answer(word):
     )
     return response.choices[0].message.content
 
-@app.route('/chatgpt', methods=['POST'])
+@app.route('/whatsapp', methods=['POST'])
 def chatgpt():
     incoming_que = request.values.get('Body', '').lower()
     print("Question: ", incoming_que)
+    return "working",incoming_que
     if "draw" in incoming_que or "design" in incoming_que:
         response = requests.post("https://api.ssebowa.chat/ssebowaAI?query="+incoming_que)
         resp = MessagingResponse()
