@@ -17,8 +17,8 @@ def generate_answer(word):
 
 @app.route('/whatsapp', methods=['POST','GET'])
 def chatgpt():
-
-    return "working"
+    incoming_que = request.values.get('Body', '').lower()
+    print("Question: ", incoming_que)
     if "draw" in incoming_que or "design" in incoming_que:
         response = requests.post("https://api.ssebowa.chat/ssebowaAI?query="+incoming_que)
         resp = MessagingResponse()
@@ -30,11 +30,11 @@ def chatgpt():
         return str(resp)
     else:
         # Generate the answer using GPT-3
-        answer = generate_answer(incoming_que)
-        print("BOT Answer: ", answer)
+        #answer = generate_answer(incoming_que)
+        print("BOT Answer: ", incoming_que)
         bot_resp = MessagingResponse()
         msg = bot_resp.message()
-        msg.body(answer)
+        msg.body("answer")
         return str(bot_resp)
 
 # Run the Flask app
