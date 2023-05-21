@@ -15,7 +15,7 @@ def generate_answer(word):
     )
     return response.choices[0].message.content
 
-@app.route('/whatsapp', methods=['POST','GET'])
+@app.route('/whatsapp', methods=['POST'])
 def chatgpt():
     incoming_que = request.values.get('Body', '').lower()
     print("Question: ", incoming_que)
