@@ -19,6 +19,8 @@ def generate_answer(word):
 def chatgpt():
     incoming_que = request.values.get('Body', '').lower()
     print("Question: ", incoming_que)
+    incoming_que = request.values.get('MediaUrl0')
+    print("Question: ", incoming_que)
     if "draw" in incoming_que or "design" in incoming_que:
         response = requests.post("https://api.ssebowa.chat/ssebowaAI?query="+incoming_que)
         resp = MessagingResponse()
