@@ -36,7 +36,7 @@ def chatgpt():
     
     bot_resp = MessagingResponse()
     msg = bot_resp.message()
-    msg.body(resp.json())    
+    msg.media(resp.json())    
     return str(bot_resp)
 
     if "draw" in incoming_que or "design" in incoming_que:
