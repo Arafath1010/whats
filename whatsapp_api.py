@@ -29,7 +29,16 @@ def chatgpt():
     filename.write_bytes(response.content)
     print("pdf saved")
     
+    url = 'https://commonapi.onrender.com/ssebowaAI?query=translate to arabic' #text from user
+    file = {'doc': open('metadata.pdf', 'rb')} #image from user
+    resp = requests.post(url=url,files=file) 
+    print(resp.json())
     
+    bot_resp = MessagingResponse()
+    msg = bot_resp.message()
+    msg.body(resp.json())    
+    return str(bot_resp)
+
     if "draw" in incoming_que or "design" in incoming_que:
         response = requests.post("https://api.ssebowa.chat/ssebowaAI?query="+incoming_que)
         resp = MessagingResponse()
@@ -39,7 +48,7 @@ def chatgpt():
         print(eval(response.content.decode("utf-8")).replace("https://commonapi.onrender.com","https://api.ssebowa.chat"))
         msg.media(imgUrl)
         return str(resp)
-    else:
+    if "sssssssss" in incoming_que:
         # Generate the answer using GPT-3
         #answer = generate_answer(incoming_que)
         print("BOT Answer: ", incoming_que)
