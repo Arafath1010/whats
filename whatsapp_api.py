@@ -25,14 +25,14 @@ def chatgpt():
     li.append(link)
     
     if "to pdf" in incoming_que:
-        print(list)
-        list=[]
+        print(li)
+        li=[]
 
     if "translate" in incoming_que:
         import requests
         from pathlib import Path
         filename = Path('metadata.pdf')
-        response = requests.get(list[0])
+        response = requests.get(li[0])
         filename.write_bytes(response.content)
         print("pdf saved")
 
