@@ -34,13 +34,13 @@ def chatgpt():
         filename = Path('metadata.pdf')
         response = requests.get(li[0])
         filename.write_bytes(response.content)
-        print("pdf saved")
+        print("pdf saved",li)
 
         url = 'https://commonapi.onrender.com/ssebowaAI?query=translate to arabic' #text from user
         file = {'doc': open('metadata.pdf', 'rb')} #image from user
         resp = requests.post(url=url,files=file) 
         print(resp.json())
-
+        li=[]
         bot_resp = MessagingResponse()
         msg = bot_resp.message()
         msg.media(resp.json())    
@@ -59,10 +59,10 @@ def chatgpt():
         # Generate the answer using GPT-3
         #answer = generate_answer(incoming_que)
         print("BOT Answer: ", incoming_que)
-        bot_resp = MessagingResponse()
-        msg = bot_resp.message()
-        msg.body("answer")
-        return str(bot_resp)
+    bot_resp = MessagingResponse()
+    msg = bot_resp.message()
+    msg.body("your query")
+    return str(bot_resp)
 
 # Run the Flask app
 if __name__ == '__main__':
