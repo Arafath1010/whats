@@ -14,14 +14,15 @@ def generate_answer(word):
 
     )
     return response.choices[0].message.content
-global list
-list = []
+global li
+li = []
 @app.route('/whatsapp', methods=['POST'])
 def chatgpt():
+    global li
     incoming_que = request.values.get('Body', '').lower()
     print("Question: ", incoming_que)
     link = request.values.get('MediaUrl0')
-    list.append(link)
+    li.append(link)
     
     if "to pdf" in incoming_que:
         print(list)
