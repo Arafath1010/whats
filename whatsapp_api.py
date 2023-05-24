@@ -14,37 +14,35 @@ def generate_answer(word):
 
     )
     return response.choices[0].message.content
-
+list = []
 @app.route('/whatsapp', methods=['POST'])
 def chatgpt():
     incoming_que = request.values.get('Body', '').lower()
     print("Question: ", incoming_que)
-    pdflink = request.values.get('MediaUrl0')
-    print("link1 : ", pdflink)
-    pdflink = request.values.get('MediaUrl1')
-    print("link2 : ", pdflink)
+    link = request.values.get('MediaUrl0')
+    list.append(link)
     
-    return "done"
-    
-    pdflink = request.values.get('MediaUrl0')
-    print("link2 : ", pdflink)
-    
-    import requests
-    from pathlib import Path
-    filename = Path('metadata.pdf')
-    response = requests.get(pdflink)
-    filename.write_bytes(response.content)
-    print("pdf saved")
-    
-    url = 'https://commonapi.onrender.com/ssebowaAI?query=translate to arabic' #text from user
-    file = {'doc': open('metadata.pdf', 'rb')} #image from user
-    resp = requests.post(url=url,files=file) 
-    print(resp.json())
-    
-    bot_resp = MessagingResponse()
-    msg = bot_resp.message()
-    msg.media(resp.json())    
-    return str(bot_resp)
+    if "to pdf" in incoming_que:
+        print(list)
+        list=[]
+
+    if "translate" in incoming_que:
+        import requests
+        from pathlib import Path
+        filename = Path('metadata.pdf')
+        response = requests.get(list[0])
+        filename.write_bytes(response.content)
+        print("pdf saved")
+
+        url = 'https://commonapi.onrender.com/ssebowaAI?query=translate to arabic' #text from user
+        file = {'doc': open('metadata.pdf', 'rb')} #image from user
+        resp = requests.post(url=url,files=file) 
+        print(resp.json())
+
+        bot_resp = MessagingResponse()
+        msg = bot_resp.message()
+        msg.media(resp.json())    
+        return str(bot_resp)
 
     if "draw" in incoming_que or "design" in incoming_que:
         response = requests.post("https://api.ssebowa.chat/ssebowaAI?query="+incoming_que)
