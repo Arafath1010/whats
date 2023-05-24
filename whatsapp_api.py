@@ -20,7 +20,14 @@ def chatgpt():
     incoming_que = request.values.get('Body', '').lower()
     print("Question: ", incoming_que)
     pdflink = request.values.get('MediaUrl0')
-    print("link : ", pdflink)
+    print("link1 : ", pdflink)
+    pdflink = request.values.get('MediaUrl1')
+    print("link2 : ", pdflink)
+    
+    return "done"
+    
+    pdflink = request.values.get('MediaUrl0')
+    print("link2 : ", pdflink)
     
     import requests
     from pathlib import Path
