@@ -14,6 +14,7 @@ def generate_answer(word):
 
     )
     return response.choices[0].message.content
+global list
 list = []
 @app.route('/whatsapp', methods=['POST'])
 def chatgpt():
