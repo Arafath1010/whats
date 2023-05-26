@@ -30,8 +30,7 @@ def chatgpt():
 
 
     if "trans" in incoming_que:
-        print("working")
-        try:
+            print("working")
             url = 'https://commonapi.onrender.com/ssebowaAI?query='+incoming_que #text from user
             file = {'doc': open('metadata.pdf', 'rb')} #image from user
             resp = requests.post(url=url,files=file) 
@@ -41,17 +40,7 @@ def chatgpt():
             msg = bot_resp.message()
             msg.media(resp.json())    
             return str(bot_resp)
-        except:
-            print("error re trying.....")
-            url = 'https://commonapi.onrender.com/ssebowaAI?query='+incoming_que #text from user
-            file = {'doc': open('metadata.pdf', 'rb')} #image from user
-            resp = requests.post(url=url,files=file) 
-            print(resp.json())
-            li=[]
-            bot_resp = MessagingResponse()
-            msg = bot_resp.message()
-            msg.media(resp.json())    
-            return str(bot_resp)
+
 
 
 
