@@ -23,19 +23,21 @@ def chatgpt():
     link = request.values.get('MediaUrl0')
     if link is not None:
        li.append(link)
-       filename = Path('metadata.pdf')
-       response = requests.get(li[0])
-       filename.write_bytes(response.content)
-       print("saved",li)
+
 
 
     if "trans" in incoming_que:
+            filename = Path('metadata.pdf')
+            response = requests.get(li[0])
+            filename.write_bytes(response.content)
+            print("saved",li)
+            li=[]
             print("working")
             url = 'https://commonapi.onrender.com/ssebowaAI?query='+incoming_que #text from user
             file = {'doc': open('metadata.pdf', 'rb')} #image from user
             resp = requests.post(url=url,files=file) 
             print(resp.json())
-            li=[]
+            
             bot_resp = MessagingResponse()
             msg = bot_resp.message()
             msg.media(resp.json())    
