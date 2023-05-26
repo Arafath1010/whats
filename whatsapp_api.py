@@ -21,12 +21,9 @@ def chatgpt():
     global li
     incoming_que = request.values.get('Body', '').lower()
     print("Question: ", incoming_que)
-    try:
-        link = request.values.get('MediaUrl0')
+    link = request.values.get('MediaUrl0')
+    if link is not None
         li.append(link)
-        print("media added")
-    except:
-        print("no media")
     
     if "to pdf" in incoming_que:
         print(li)
@@ -38,12 +35,13 @@ def chatgpt():
         filename = Path('metadata.pdf')
         response = requests.get(li[0])
         filename.write_bytes(response.content)
-        print("pdf saved",li)
+        
 
         url = 'https://commonapi.onrender.com/ssebowaAI?query=translate to arabic' #text from user
         file = {'doc': open('metadata.pdf', 'rb')} #image from user
         resp = requests.post(url=url,files=file) 
         print(resp.json())
+        print("pdf saved",li)
         li=[]
         bot_resp = MessagingResponse()
         msg = bot_resp.message()
