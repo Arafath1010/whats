@@ -24,7 +24,7 @@ def chatgpt():
 
 
 
-    if "trans" in incoming_que:
+    if "tran" in incoming_que:
             print("working",li)
             try:
                 url = 'https://commonapi.onrender.com/whatstranslate?link='+li[0]+'&lang=arabic' #text from user
