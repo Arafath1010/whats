@@ -9,8 +9,8 @@ import requests
 from pathlib import Path
 global li
 li = []
-app = FastAPI()
-#app = Flask(__name__)
+
+app = Flask(__name__)
 
 
 
@@ -36,19 +36,15 @@ def chatgpt():
             file = {'doc': open('metadata.pdf', 'rb')} #image from user
             resp = requests.post(url=url,files=file) 
             print(resp.json())
+            li=[]
+            bot_resp = MessagingResponse()
+            msg = bot_resp.message()
+            msg.media(resp.json())    
+            return str(bot_resp)
         except:
             print("error re trying.....")
-            url = 'https://commonapi.onrender.com/ssebowaAI?query='+incoming_que #text from user
-            file = {'doc': open('metadata.pdf', 'rb')} #image from user
-            resp = requests.post(url=url,files=file) 
-            print(resp.json())
-            
-        #print("pdf saved",li)
-        li=[]
-        bot_resp = MessagingResponse()
-        msg = bot_resp.message()
-        msg.media(resp.json())    
-        return str(bot_resp)
+
+
 
 
     bot_resp = MessagingResponse()
@@ -56,4 +52,6 @@ def chatgpt():
     msg.body("your query")
     return str(bot_resp)
 
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=False, port=5000)
 
