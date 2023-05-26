@@ -21,15 +21,13 @@ def chatgpt():
     link = request.values.get('MediaUrl0')
     if link is not None:
        li.append(link)
-    
+       filename = Path('metadata.pdf')
+       response = requests.get(li[0])
+       filename.write_bytes(response.content)
+       print("saved",li)
+
 
     if "trans" in incoming_que:
-        print(li)
-
-        filename = Path('metadata.pdf')
-        response = requests.get(li[0])
-        filename.write_bytes(response.content)
-        
         try:
             url = 'https://commonapi.onrender.com/ssebowaAI?query='+incoming_que #text from user
             file = {'doc': open('metadata.pdf', 'rb')} #image from user
@@ -55,6 +53,4 @@ def chatgpt():
     msg.body("your query")
     return str(bot_resp)
 
-# Run the Flask app
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=False, port=5000)
+
