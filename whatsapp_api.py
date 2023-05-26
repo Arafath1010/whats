@@ -21,14 +21,18 @@ def chatgpt():
     global li
     incoming_que = request.values.get('Body', '').lower()
     print("Question: ", incoming_que)
-    link = request.values.get('MediaUrl0')
-    li.append(link)
+    try:
+        link = request.values.get('MediaUrl0')
+        li.append(link)
+        print("media added")
+    except:
+        print("no media")
     
     if "to pdf" in incoming_que:
         print(li)
         li=[]
 
-    if "cover letter" in incoming_que:
+    if "trans" in incoming_que:
         import requests
         from pathlib import Path
         filename = Path('metadata.pdf')
