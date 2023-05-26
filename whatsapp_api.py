@@ -34,7 +34,6 @@ def chatgpt():
         resp = requests.post(url=url,files=file) 
         print(resp.json())
         #print("pdf saved",li)
-        global li
         li=[]
         bot_resp = MessagingResponse()
         msg = bot_resp.message()
