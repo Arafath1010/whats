@@ -1,4 +1,5 @@
 from flask import Flask, request
+from fastapi import FastAPI
 import openai
 from twilio.twiml.messaging_response import MessagingResponse
 import os
@@ -8,7 +9,8 @@ import requests
 from pathlib import Path
 global li
 li = []
-app = Flask(__name__)
+app = FastAPI()
+#app = Flask(__name__)
 
 
 
