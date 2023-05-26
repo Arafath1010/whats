@@ -35,7 +35,7 @@ def chatgpt():
         filename = Path('metadata.pdf')
         response = requests.get(li[0])
         filename.write_bytes(response.content)
-        
+        print("pdf saved",li)
 
         url = 'https://commonapi.onrender.com/ssebowaAI?query=translate to arabic' #text from user
         file = {'doc': open('metadata.pdf', 'rb')} #image from user
