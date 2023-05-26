@@ -1,12 +1,10 @@
 from flask import Flask, request
-from fastapi import FastAPI
-import openai
+
 from twilio.twiml.messaging_response import MessagingResponse
 import os
 import requests
 # Init the Flask App
 import requests
-from pathlib import Path
 global li
 li = []
 
@@ -26,17 +24,10 @@ def chatgpt():
 
 
 
-    if 1==1:
-            response = requests.get(li[0])
-            pdf = open("metadata.pdf", 'wb')
-            pdf.write(response.content)
-            pdf.close()
-            print("saved",li)
-            li=[]
+    if "trans" in incoming_que:
             print("working")
-            url = 'https://commonapi.onrender.com/ssebowaAI?query=translate to arabic' #text from user
-            file = {'doc': open('metadata.pdf', 'rb')} #image from user
-            resp = requests.post(url=url,files=file) 
+            url = 'https://commonapi.onrender.com/whatstranslate?link='+li[0]+'&lang=arabic' #text from user
+            resp = requests.post(url=url) 
             print(resp.json())
             
             bot_resp = MessagingResponse()
