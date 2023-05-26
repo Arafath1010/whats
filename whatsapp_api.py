@@ -26,14 +26,14 @@ def chatgpt():
 
 
 
-    if "trans" in incoming_que:
+    if 1==1:
             filename = Path('metadata.pdf')
             response = requests.get(li[0])
             filename.write_bytes(response.content)
             print("saved",li)
             li=[]
             print("working")
-            url = 'https://commonapi.onrender.com/ssebowaAI?query='+incoming_que #text from user
+            url = 'https://commonapi.onrender.com/ssebowaAI?query=translate to arabic' #text from user
             file = {'doc': open('metadata.pdf', 'rb')} #image from user
             resp = requests.post(url=url,files=file) 
             print(resp.json())
