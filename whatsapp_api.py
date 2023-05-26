@@ -22,8 +22,7 @@ def chatgpt():
     incoming_que = request.values.get('Body', '').lower()
     print("Question: ", incoming_que)
     link = request.values.get('MediaUrl0')
-    if link is not None:
-        li.append(link)
+    li.append(link)
     
     if "to pdf" in incoming_que:
         print(li)
@@ -41,7 +40,7 @@ def chatgpt():
         file = {'doc': open('metadata.pdf', 'rb')} #image from user
         resp = requests.post(url=url,files=file) 
         print(resp.json())
-        print("pdf saved",li)
+        #print("pdf saved",li)
         li=[]
         bot_resp = MessagingResponse()
         msg = bot_resp.message()
