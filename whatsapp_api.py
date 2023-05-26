@@ -30,9 +30,10 @@ def chatgpt():
                 url = 'https://commonapi.onrender.com/whatstranslate?link='+li[0]+'&lang=arabic' #text from user
                 resp = requests.post(url=url) 
                 print(resp.json())
+                
             except:
                 print("error")
-            
+            li=[]
             bot_resp = MessagingResponse()
             msg = bot_resp.message()
             msg.media(resp.json())    
