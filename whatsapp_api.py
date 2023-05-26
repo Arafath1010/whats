@@ -22,13 +22,14 @@ def chatgpt():
     
 
     if "trans" in incoming_que:
+        print(li)
         import requests
         from pathlib import Path
         filename = Path('metadata.pdf')
         response = requests.get(li[0])
         filename.write_bytes(response.content)
         print("pdf saved",li)
-
+        
         url = 'https://commonapi.onrender.com/ssebowaAI?query='+incoming_que #text from user
         file = {'doc': open('metadata.pdf', 'rb')} #image from user
         resp = requests.post(url=url,files=file) 
