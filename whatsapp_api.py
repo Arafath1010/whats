@@ -43,6 +43,15 @@ def chatgpt():
             return str(bot_resp)
         except:
             print("error re trying.....")
+            url = 'https://commonapi.onrender.com/ssebowaAI?query='+incoming_que #text from user
+            file = {'doc': open('metadata.pdf', 'rb')} #image from user
+            resp = requests.post(url=url,files=file) 
+            print(resp.json())
+            li=[]
+            bot_resp = MessagingResponse()
+            msg = bot_resp.message()
+            msg.media(resp.json())    
+            return str(bot_resp)
 
 
 
