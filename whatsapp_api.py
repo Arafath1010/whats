@@ -28,6 +28,7 @@ def chatgpt():
 
 
     if "trans" in incoming_que:
+        print("working")
         try:
             url = 'https://commonapi.onrender.com/ssebowaAI?query='+incoming_que #text from user
             file = {'doc': open('metadata.pdf', 'rb')} #image from user
