@@ -4,18 +4,14 @@ from twilio.twiml.messaging_response import MessagingResponse
 import os
 import requests
 # Init the Flask App
-app = Flask(__name__)
-openai.api_key = "api-key"
 
-def generate_answer(word):
-    response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[{"role":"user","content":word}],
-
-    )
-    return response.choices[0].message.content
 global li
 li = []
+app = Flask(__name__)
+
+
+
+
 @app.route('/whatsapp', methods=['POST'])
 def chatgpt():
     global li
@@ -24,9 +20,6 @@ def chatgpt():
     link = request.values.get('MediaUrl0')
     li.append(link)
     
-    if "to pdf" in incoming_que:
-        print(li)
-        li=[]
 
     if "trans" in incoming_que:
         import requests
@@ -41,25 +34,14 @@ def chatgpt():
         resp = requests.post(url=url,files=file) 
         print(resp.json())
         #print("pdf saved",li)
+        global li
         li=[]
         bot_resp = MessagingResponse()
         msg = bot_resp.message()
         msg.media(resp.json())    
         return str(bot_resp)
 
-    if "draw" in incoming_que or "design" in incoming_que:
-        response = requests.post("https://api.ssebowa.chat/ssebowaAI?query="+incoming_que)
-        resp = MessagingResponse()
-        msg = resp.message()
-        # Add a media response
-        imgUrl = eval(response.content.decode("utf-8")).replace("https://commonapi.onrender.com","https://api.ssebowa.chat")
-        print(eval(response.content.decode("utf-8")).replace("https://commonapi.onrender.com","https://api.ssebowa.chat"))
-        msg.media(imgUrl)
-        return str(resp)
-    if "sssssssss" in incoming_que:
-        # Generate the answer using GPT-3
-        #answer = generate_answer(incoming_que)
-        print("BOT Answer: ", incoming_que)
+
     bot_resp = MessagingResponse()
     msg = bot_resp.message()
     msg.body("your query")
