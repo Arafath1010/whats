@@ -27,9 +27,10 @@ def chatgpt():
 
 
     if 1==1:
-            filename = Path('metadata.pdf')
             response = requests.get(li[0])
-            filename.write_bytes(response.content)
+            pdf = open("metadata.pdf", 'wb')
+            pdf.write(response.content)
+            pdf.close()
             print("saved",li)
             li=[]
             print("working")
