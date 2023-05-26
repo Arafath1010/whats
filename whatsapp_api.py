@@ -28,7 +28,7 @@ def chatgpt():
         print(li)
         li=[]
 
-    if "cover letter" in incoming_que:
+    if "trans" in incoming_que:
         import requests
         from pathlib import Path
         filename = Path('metadata.pdf')
