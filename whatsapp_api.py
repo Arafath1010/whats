@@ -26,9 +26,12 @@ def chatgpt():
 
     if "trans" in incoming_que:
             print("working")
-            url = 'https://commonapi.onrender.com/whatstranslate?link='+li[0]+'&lang=arabic' #text from user
-            resp = requests.post(url=url) 
-            print(resp.json())
+            try:
+                url = 'https://commonapi.onrender.com/whatstranslate?link='+li[0]+'&lang=arabic' #text from user
+                resp = requests.post(url=url) 
+                print(resp.json())
+            except:
+                print("error")
             
             bot_resp = MessagingResponse()
             msg = bot_resp.message()
