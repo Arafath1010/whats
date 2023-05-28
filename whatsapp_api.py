@@ -19,10 +19,12 @@ def chatgpt():
     incoming_que = request.values.get('Body', '').lower()
     print("Question: ", incoming_que)
     link = request.values.get('MediaUrl0')
+    print(link)
     if link is not None:
        li.append(link)
 
-
+    if "to pdf" in incoming_que:
+        print(link)
 
     if "tran" in incoming_que:
             print("working",li)
