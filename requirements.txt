@@ -3,4 +3,4 @@ uvicorn
 flask
 gunicorn
 twilio
-fastapi
+pillow
