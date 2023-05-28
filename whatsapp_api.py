@@ -4,7 +4,10 @@ from twilio.twiml.messaging_response import MessagingResponse
 import os
 import requests
 # Init the Flask App
-import requests
+from PIL import Image
+
+
+
 global li
 li = []
 
@@ -24,7 +27,20 @@ def chatgpt():
        li.append(link)
 
     if "to pdf" in incoming_que:
-        print(link)
+        print("converting")
+        images=[]
+        url = li[0]
+        image = Image.open(requests.get(url, stream=True).raw)
+
+        if image.mode == 'RGBA':
+           image = image.convert('RGB')
+        images.append(image)
+
+        images[0].save("img2pdf.pdf", "PDF" ,resolution=100.0, save_all=True)
+        bot_resp = MessagingResponse()
+        msg = bot_resp.message()
+        msg.media("img2pdf.pdf")    
+        return str(bot_resp)
 
     if "tran" in incoming_que:
             print("working",li)
