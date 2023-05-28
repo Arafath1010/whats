@@ -35,11 +35,13 @@ def chatgpt():
         if image.mode == 'RGBA':
            image = image.convert('RGB')
         images.append(image)
-
-        images[0].save("img2pdf.pdf", "PDF" ,resolution=100.0, save_all=True)
+        name = url.split("/")[-1]+".pdf"
+        images[0].save("static/"+name, "PDF" ,resolution=100.0, save_all=True)
+        
+        print("https://whatsapp-vz43.onrender.com/static/"+name)
         bot_resp = MessagingResponse()
         msg = bot_resp.message()
-        msg.media("img2pdf.pdf")    
+        msg.media("https://whatsapp-vz43.onrender.com/static/"+name)    
         return str(bot_resp)
 
     if "tran" in incoming_que:
