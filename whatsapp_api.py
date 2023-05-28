@@ -29,15 +29,21 @@ def chatgpt():
     if "to pdf" in incoming_que:
         print("converting")
         images=[]
-        url = li[0]
-        image = Image.open(requests.get(url, stream=True).raw)
+        for url in li:
+            image = Image.open(requests.get(url, stream=True).raw)
 
-        if image.mode == 'RGBA':
-           image = image.convert('RGB')
-        images.append(image)
-        name = url.split("/")[-1]+".pdf"
-        images[0].save("static/"+name, "PDF" ,resolution=100.0, save_all=True)
+            if image.mode == 'RGBA':
+               image = image.convert('RGB')
+            images.append(image)
         
+        
+        
+        name = url.split("/")[-1]+".pdf"
+        if len(li)==1:
+           images[0].save("static/"+name, "PDF" ,resolution=100.0, save_all=True)
+        else:
+           images[0].save("static/"+name, "PDF" ,resolution=100.0, save_all=True,append_images=images[1:])
+        li=[]
         print("https://whatsapp-vz43.onrender.com/static/"+name)
         bot_resp = MessagingResponse()
         msg = bot_resp.message()
