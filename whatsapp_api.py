@@ -122,7 +122,7 @@ def chatgpt():
                 p.append(tuple_point)
 
             warped_image = perspective_transform(copy, doc.reshape(4, 2) * ratio)
-            warped_image = cv2.cvtColor(warped_image, cv2.COLOR_BGR2GRAY)
+            warped_image = cv2.cvtColor(warped_image,cv2.COLOR_BGR2RGB)
 
             #T = threshold_local(warped_image,21, offset=10, method="gaussian")
             #warped = (warped_image > T).astype("uint8") * 255
