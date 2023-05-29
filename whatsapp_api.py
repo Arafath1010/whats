@@ -139,7 +139,7 @@ def chatgpt():
             bot_resp = MessagingResponse()
             msg = bot_resp.message()
             #replace the url 
-            msg.text("image have no borders so try to upload image with borders")    
+            msg.body("image have no borders so try to upload image with borders")    
             return str(bot_resp)
     
 
