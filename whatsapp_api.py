@@ -47,23 +47,10 @@ def chatgpt():
         print("https://whatsapp-vz43.onrender.com/static/"+name)
         bot_resp = MessagingResponse()
         msg = bot_resp.message()
+        #replace the url 
         msg.media("https://whatsapp-vz43.onrender.com/static/"+name)    
         return str(bot_resp)
 
-    if "tran" in incoming_que:
-            print("working",li)
-            try:
-                url = 'https://commonapi.onrender.com/whatstranslate?link='+li[0]+'&lang=arabic' #text from user
-                resp = requests.post(url=url) 
-                print(resp.json())
-                
-            except:
-                print("error")
-            li=[]
-            bot_resp = MessagingResponse()
-            msg = bot_resp.message()
-            msg.media(resp.json())    
-            return str(bot_resp)
 
 
 if __name__ == '__main__':
