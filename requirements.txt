@@ -1,6 +1,8 @@
-openai
 uvicorn
 flask
 gunicorn
 twilio
 pillow
+numpy
+opencv-python
+imutils
