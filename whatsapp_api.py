@@ -3,11 +3,13 @@ from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 import os
 import requests
-# Init the Flask App
 from PIL import Image
 import cv2
 import imutils
 from transform import perspective_transform
+import numpy as np
+
+
 
 
 global li
