@@ -68,6 +68,7 @@ def chatgpt():
         img = Image.open(requests.get(link, stream=True).raw)
         if img.mode == 'RGBA':
                img = image.convert('RGB')
+        img.save(name)
 
         def order_points(pts):
             """Rearrange coordinates to order:
@@ -183,7 +184,7 @@ def chatgpt():
         #runtime = []
         for img_path in ["image"]:
            
-                #img = cv2.imread("kk.jpeg")
+                img = cv2.imread(name)
                 print(img_path)
                 print(type(img))
                 t1 = time.time()
