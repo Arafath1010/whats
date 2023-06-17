@@ -5,3 +5,4 @@ twilio
 pillow
 numpy
 imutils
+fastapi
