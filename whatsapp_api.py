@@ -181,7 +181,7 @@ def chatgpt():
 
         #runtime = []
         for img_path in ["image"]:
-            try:
+           
                 #img = cv2.imread("kk.jpeg")
                 print(img_path)
         
@@ -197,11 +197,8 @@ def chatgpt():
                 cv2.imwrite('static/' + name, scanned_img)
                 print("scanned"+name)
         
-                key = cv2.waitKey(0)
-                if key == 27:
-                    break
-            except:
-                print('fail')
+                
+
 
 
 if __name__ == '__main__':
