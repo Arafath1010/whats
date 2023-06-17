@@ -22,7 +22,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 app = FastAPI()
 
 
-async def scanne_document(file):
+async def scanne_document(file,name):
         def order_points(pts):
             """Rearrange coordinates to order:
                top-left, top-right, bottom-right, bottom-left"""
@@ -151,7 +151,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
         print("img saved")
 
         img = cv2.imread(name)
-        res = await scanne_document(img)
+        res = await scanne_document(img,name)
         print(res)
 
         
