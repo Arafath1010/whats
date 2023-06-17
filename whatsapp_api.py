@@ -185,7 +185,7 @@ def chatgpt():
            
                 #img = cv2.imread("kk.jpeg")
                 print(img_path)
-        
+                print(type(img))
                 t1 = time.time()
         
                 scanned_img = scan(img)
