@@ -4,5 +4,4 @@ gunicorn
 twilio
 pillow
 numpy
-opencv-python
 imutils
