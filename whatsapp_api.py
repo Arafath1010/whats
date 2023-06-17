@@ -44,7 +44,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
         #return str(bot_resp)
         response = MessagingResponse() 
         msg = response.message()
-        msg.media(resp.json())
+        msg.media(MediaUrl0)
         return Response(content=str(response), media_type="application/xml")
 
     
