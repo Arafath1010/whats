@@ -185,13 +185,13 @@ def chatgpt():
         for img_path in ["image"]:
            
                 img = cv2.imread(name)
-                print(img_path)
-                print(type(img))
-                t1 = time.time()
+                #print(img_path)
+                #print(type(img))
+                #t1 = time.time()
         
                 scanned_img = scan(img)
         
-                t2 = time.time()
+                #t2 = time.time()
         
                 #runtime.append({'image': img_path, 'time': t2 - t1})
         
