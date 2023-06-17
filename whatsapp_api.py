@@ -24,7 +24,8 @@ app = FastAPI()
 @app.post("/whatsapp")
 async def chat(From: str = Form(...), Body: str = Form(...)):
     response = MessagingResponse() 
-    msg = response.message(f"Hi {From}, you said: {Body}")
+    msg = response.message()
+    msg.body("hiii")
     return Response(content=str(response), media_type="application/xml")
 
     
