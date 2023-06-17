@@ -34,7 +34,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
         print("img saved")
         url = 'https://commonapi.onrender.com/ssebowaAI?query=scan' #text from user
         file = {'img': open(name,'rb')} #image from user
-        resp = requests.post(url=url,files=file) 
+        resp = await requests.post(url=url,files=file) 
         print(resp.json())
  
         #bot_resp = MessagingResponse()
