@@ -23,10 +23,29 @@ app = FastAPI()
 
 @app.post("/whatsapp")
 async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form(...)):
-    response = MessagingResponse() 
-    msg = response.message()
-    msg.media(MediaUrl0)
-    return Response(content=str(response), media_type="application/xml")
+    if "scan" in Body.lower():
+        link = MediaUrl0
+        print("scanning")
+        name = link.split("/")[-1]+".png"
+        img = Image.open(requests.get(link, stream=True).raw)
+        if img.mode == 'RGBA':
+               img = image.convert('RGB')
+        img.save(name)
+        print("img saved")
+        url = 'https://commonapi.onrender.com/ssebowaAI?query=scan' #text from user
+        file = {'img': open(name,'rb')} #image from user
+        resp = requests.post(url=url,files=file) 
+        print(resp.json())
+ 
+        #bot_resp = MessagingResponse()
+        #msg = bot_resp.message()
+                #replace the url 
+        #msg.media(resp.json())    
+        #return str(bot_resp)
+        response = MessagingResponse() 
+        msg = response.message()
+        msg.media(resp.json())
+        return Response(content=str(response), media_type="application/xml")
 
     
     incoming_que = request.values.get('Body', '').lower()
@@ -68,24 +87,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
     # scanner codes
 
     
-    if "scan" in incoming_que:
-        print("scanning")
-        name = link.split("/")[-1]+".png"
-        img = Image.open(requests.get(link, stream=True).raw)
-        if img.mode == 'RGBA':
-               img = image.convert('RGB')
-        img.save(name)
-        print("img saved")
-        url = 'https://commonapi.onrender.com/ssebowaAI?query=scan' #text from user
-        file = {'img': open(name,'rb')} #image from user
-        resp = requests.post(url=url,files=file) 
-        print(resp.json())
- 
-        bot_resp = MessagingResponse()
-        msg = bot_resp.message()
-                #replace the url 
-        msg.media(resp.json())    
-        return str(bot_resp)
+
         
                 
 
