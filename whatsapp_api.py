@@ -15,13 +15,24 @@ import time
 global li
 li = []
 
-app = Flask(__name__)
+from fastapi import FastAPI, Form, Response
+from twilio.twiml.messaging_response import MessagingResponse
+
+app = FastAPI()
+
+
+@app.post("/whatsapp")
+async def chat(From: str = Form(...), Body: str = Form(...)):
+   bot_resp = MessagingResponse() 
+
+   msg = bot_resp.message()
+
+   msg.body("https://whatsapp-vz43.onrender.com/static/"+Body)    
+   return str(bot_resp)
+   #return Response(content=str(response), media_type="application/xml")
 
 
 
-
-@app.route('/whatsapp', methods=['POST'])
-def chatgpt():
     global li
     incoming_que = request.values.get('Body', '').lower()
     print("Question: ", incoming_que)
@@ -85,6 +96,4 @@ def chatgpt():
 
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=False, port=5000)
 
