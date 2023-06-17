@@ -23,13 +23,11 @@ app = FastAPI()
 
 @app.post("/whatsapp")
 async def chat(From: str = Form(...), Body: str = Form(...)):
-    bot_resp = MessagingResponse() 
+    response = MessagingResponse() 
+    msg = response.message(f"Hi {From}, you said: {Body}")
+    return Response(content=str(response), media_type="application/xml")
 
-    msg = bot_resp.message()
-
-    msg.body("https://whatsapp-vz43.onrender.com/static/"+Body)    
-    return str(bot_resp)
-   #return Response(content=str(response), media_type="application/xml")
+    
     incoming_que = request.values.get('Body', '').lower()
     print("Question: ", incoming_que)
     link = request.values.get('MediaUrl0')
