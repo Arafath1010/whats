@@ -5,7 +5,6 @@ import os
 import requests
 from PIL import Image
 
-import imutils
 import numpy as np
 import time
 
