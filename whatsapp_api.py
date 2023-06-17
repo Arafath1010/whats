@@ -196,8 +196,13 @@ def chatgpt():
                 #runtime.append({'image': img_path, 'time': t2 - t1})
         
                 #cv2.imshow("scanner", scanned_img)
-                cv2.imwrite('static/' + name, scanned_img)
+                cv2.imwrite('static/'+name, scanned_img)
                 print("scanned"+name)
+                bot_resp = MessagingResponse()
+                msg = bot_resp.message()
+                #replace the url 
+                msg.media("https://whatsapp-vz43.onrender.com/static/"+name)    
+                return str(bot_resp)
         
                 
 
