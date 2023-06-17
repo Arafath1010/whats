@@ -133,34 +133,13 @@ async def scanne_document(file):
         
             return final
 
-
-        #runtime = []
-        for img_path in ["image"]:
-                name = file.filename
-                contents = file.file.read()
-                image = Image.open(BytesIO(contents))
-                if image.mode == 'RGBA':
-                    image = image.convert('RGB')
-                image.save(name)
-            
-                img = cv2.imread(name)
-                print(img_path)
-                #print(type(img))
-                #t1 = time.time()
-        
-                scanned_img = scan(img)
-        
-                #t2 = time.time()
-        
-                #runtime.append({'image': img_path, 'time': t2 - t1})
-        
-                #cv2.imshow("scanner", scanned_img)
-                cv2.imwrite('static/'+name, scanned_img)
-                return "https://commonapi.onrender.com/static/"+name
+        scanned_img = scan(file)
+        cv2.imwrite('static/'+name, scanned_img)
+        return "https://commonapi.onrender.com/static/"+name
 
 
 @app.post("/whatsapp")
-def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form(...)):
+async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form(...)):
     if "scan" in Body.lower():
         link = MediaUrl0
         print("scanning")
