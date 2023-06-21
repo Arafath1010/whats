@@ -68,7 +68,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
         (cnt, heirarchy) = cv2.findContours(dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         cv2.drawContours(rgb, cnt, -1, (0,255,0), 1)
-        cv2.imwrite("static/out.png",rgb)
+        cv2.imwrite("static/"+name ,rgb)
         print('Count: ', len(cnt)-len(cnt)//2)
 
         
