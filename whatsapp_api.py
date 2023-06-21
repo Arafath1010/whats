@@ -84,7 +84,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
         #return str(bot_resp)
         response = MessagingResponse() 
         msg = response.message()
-        msg.media("https://whatsapp-vz43.onrender.com/static/out.png")
+        msg.media("https://whatsapp-vz43.onrender.com/static/"+name)
         msg.body('Count: '+str(len(cnt)-len(cnt)//2))
         return Response(content=str(response), media_type="application/xml")
 
