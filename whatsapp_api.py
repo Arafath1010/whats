@@ -69,7 +69,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
         rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         cv2.drawContours(rgb, cnt, -1, (0,255,0), 1)
         cv2.imwrite("static/out.png",rgb)
-        print('Coins in the image: ', len(cnt)-len(cnt)//2)
+        print('Count: ', len(cnt)-len(cnt)//2)
 
         
         #url = 'https://commonapi.onrender.com/ssebowaAI?query=scan' #text from user
@@ -85,6 +85,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
         response = MessagingResponse() 
         msg = response.message()
         msg.media("https://whatsapp-vz43.onrender.com/static/out.png")
+        msg.body('Count: '+str(len(cnt)-len(cnt)//2))
         return Response(content=str(response), media_type="application/xml")
 
     
