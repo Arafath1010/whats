@@ -54,13 +54,13 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
         img.save(name)
         print("img saved")
         img.close()
-
-        img = cv2.imread(name)
-        box, label, count = cv.detect_common_objects(img)
-        output = draw_bbox(img, box, label, count)
-        count = len(label)
+        try:
+            img = cv2.imread(name)
+            box, label, count = cv.detect_common_objects(img)
+            output = draw_bbox(img, box, label, count)
+            count = len(label)
         
-        if len(label)==0:
+        except:
           image = cv2.imread(name)
           gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
           blur = cv2.GaussianBlur(gray, (11,11), 0)
