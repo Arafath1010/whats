@@ -9,3 +9,4 @@ fastapi
 python-multipart
 opencv-python
 cvlib
+tensorflow
