@@ -10,7 +10,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Request
-
+import cvlib as cv
+from cvlib.object_detection import draw_bbox
 
 import numpy as np
 import time
@@ -53,23 +54,25 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
         img.save(name)
         print("img saved")
         img.close()
+
+        img = cv2.imread(name)
+        box, label, count = cv.detect_common_objects(img)
+        output = draw_bbox(img, box, label, count)
+        count = len(label)
         
-        image = cv2.imread(name)
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        if len(label)==0:
+          image = cv2.imread(name)
+          gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+          blur = cv2.GaussianBlur(gray, (11,11), 0)
+          canny = cv2.Canny(blur, 30, 150, 3)
+          dilated = cv2.dilate(canny, (1,1), iterations = 2)
+          (cnt, heirarchy) = cv2.findContours(dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+          cv2.drawContours(image, cnt, -1, (0,255,0), 1)
+          output = image
+          count = len(cnt)-len(cnt)//2
         
-        
-        blur = cv2.GaussianBlur(gray, (11,11), 0)
-        
-        
-        canny = cv2.Canny(blur, 30, 150, 3)
-        
-        
-        dilated = cv2.dilate(canny, (1,1), iterations = 2)
-        (cnt, heirarchy) = cv2.findContours(dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-        rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        cv2.drawContours(rgb, cnt, -1, (0,255,0), 1)
-        cv2.imwrite("static/"+name ,rgb)
-        print('Count: ', len(cnt)-len(cnt)//2)
+        cv2.imwrite("static/"+name, output)
+        print('Count: ',count)
 
         
         #url = 'https://commonapi.onrender.com/ssebowaAI?query=scan' #text from user
@@ -85,7 +88,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
         response = MessagingResponse() 
         msg = response.message()
         msg.media("https://whatsapp-vz43.onrender.com/static/"+name)
-        msg.body('Count: '+str(len(cnt)-len(cnt)//2))
+        msg.body('Count: '+str(count))
         return Response(content=str(response), media_type="application/xml")
 
     
