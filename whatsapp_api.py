@@ -70,7 +70,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
         print("file saved")
     
         with open('temp.pdf', 'rb') as file:
-            reader = PyPDF2.PdfFileReader(file)
+            reader = PyPDF2.PdfReader(file)
             num_pages = reader.numPages
             content = ''
             
