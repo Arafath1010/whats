@@ -1,5 +1,6 @@
 from flask import Flask, request
-
+#torch
+#transformers
 from twilio.twiml.messaging_response import MessagingResponse
 import os
 import requests
@@ -51,6 +52,10 @@ def list_files(request: Request):
     )
 
 import requests
+
+import json
+headers = {"Authorization": f"Bearer {'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'}"}
+API_URL = "https://api-inference.huggingface.co/models/deepset/roberta-base-squad2"
 import PyPDF2
 @app.post("/whatsapp")
 async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form(...)):
@@ -80,12 +85,20 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
     pdf_content = read_pdf_from_url(pdf_url)
     #print(pdf_content)
     def model_response(question):
-      QA_input = {
-          'question': question,
-          'context': str(pdf_content)
-      }
-      res = nlp(QA_input)
-      return res
+        def query(payload):
+            data = json.dumps(payload)
+            response = requests.request("POST", API_URL, headers=headers, data=data)
+            return json.loads(response.content.decode("utf-8"))
+        data = query(
+            {
+                "inputs": {
+                    "question": question,
+                    "context": "My name is Clara and I live in Berkeley.",
+                }
+            }
+        )
+
+        return res
     resp = model_response(str(Body))
     
 
