@@ -79,14 +79,14 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
     pdf_url = MediaUrl0
     pdf_content = read_pdf_from_url(pdf_url)
     #print(pdf_content)
-    def response(question):
+    def model_response(question):
       QA_input = {
           'question': question,
           'context': str(pdf_content)
       }
       res = nlp(QA_input)
       return res
-    resp = response(str(Body))
+    resp = model_response(str(Body))
     
 
 
