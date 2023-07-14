@@ -7,6 +7,4 @@ numpy
 imutils
 fastapi
 python-multipart
-torch
-transformers
 PyPDF2
