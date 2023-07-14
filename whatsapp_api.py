@@ -4,14 +4,14 @@ from twilio.twiml.messaging_response import MessagingResponse
 import os
 import requests
 from PIL import Image
-import cv2
+#import cv2
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Request
-import cvlib as cv
-from cvlib.object_detection import draw_bbox
+#import cvlib as cv
+#from cvlib.object_detection import draw_bbox
 
 import numpy as np
 import time
