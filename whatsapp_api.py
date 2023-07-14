@@ -76,7 +76,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
             content = ''
             
             for page_num in range(num_pages):
-                page = reader.getPage(page_num)
+                page = reader.pages[page_number]
                 content += page.extractText()
             print("contend return")
             return content
