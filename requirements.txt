@@ -7,8 +7,6 @@ numpy
 imutils
 fastapi
 python-multipart
-opencv-python
-cvlib
-tensorflow
+
 transformers
 PyPDF2
