@@ -76,7 +76,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
             content = ''
             
             for page_num in range(num_pages):
-                page = reader.pages[page_number]
+                page = reader.pages[num_pages]
                 content += page.extractText()
             print("contend return")
             return content
@@ -85,23 +85,31 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
     pdf_url = MediaUrl0
     pdf_content = read_pdf_from_url(pdf_url)
     #print(pdf_content)
-    def model_response(question):
-        def query(payload):
-            data = json.dumps(payload)
-            response = requests.request("POST", API_URL, headers=headers, data=data)
-            return json.loads(response.content.decode("utf-8"))
-        data = query(
-            {
-                "inputs": {
-                    "question": question,
-                    "context": str(pdf_content),
+    resp = "ask your Question"
+    if Body is not None:
+        def model_response(question):
+            def query(payload):
+                data = json.dumps(payload)
+                response = requests.request("POST", API_URL, headers=headers, data=data)
+                return json.loads(response.content.decode("utf-8"))
+            data = query(
+                {
+                    "inputs": {
+                        "question": question,
+                        "context": str(pdf_content),
+                    }
                 }
-            }
-        )
-
-        return str(data)
-    print(Body)
-    resp = model_response(str(Body))
+            )
+    
+            return str(data)
+        print(Body)
+        
+        resp = model_response(str(Body))
+        response = MessagingResponse() 
+        msg = response.message()
+        #msg.media("https://whatsapp-vz43.onrender.com/static/"+name)
+        msg.body(resp)
+        return Response(content=str(response), media_type="application/xml")
     
 
 
