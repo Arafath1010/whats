@@ -82,7 +82,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
 
     # Provide the URL of your PDF file
     pdf_url = MediaUrl0
-    pdf_content = read_pdf_from_url(pdf_url)
+    #pdf_content = read_pdf_from_url(pdf_url)
     #print(pdf_content)
     def model_response(question):
         def query(payload):
@@ -99,6 +99,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
         )
 
         return res
+    print(Body)
     resp = model_response(str(Body))
     
 
