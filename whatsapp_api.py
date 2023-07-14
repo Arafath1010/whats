@@ -58,16 +58,17 @@ headers = {"Authorization": f"Bearer {'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'}"}
 API_URL = "https://api-inference.huggingface.co/models/deepset/roberta-base-squad2"
 import PyPDF2
 @app.post("/whatsapp")
-async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form(...)):
+async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = Form(None)):
     #if "count" in Body.lower():
        # link = MediaUrl0
     
     def read_pdf_from_url(url):
-        response = requests.get(url)
-        file = open('temp.pdf', 'wb')
-        file.write(response.content)
-        file.close()
-        print("file saved")
+        if MediaUrl0 is not None:
+            response = requests.get(url)
+            file = open('temp.pdf', 'wb')
+            file.write(response.content)
+            file.close()
+            print("file saved")
     
         with open('temp.pdf', 'rb') as file:
             reader = PyPDF2.PdfReader(file)
@@ -82,7 +83,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
 
     # Provide the URL of your PDF file
     pdf_url = MediaUrl0
-    #pdf_content = read_pdf_from_url(pdf_url)
+    pdf_content = read_pdf_from_url(pdf_url)
     #print(pdf_content)
     def model_response(question):
         def query(payload):
@@ -93,7 +94,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
             {
                 "inputs": {
                     "question": question,
-                    "context": "My name is Clara and I live in Berkeley.",
+                    "context": str(pdf_content),
                 }
             }
         )
