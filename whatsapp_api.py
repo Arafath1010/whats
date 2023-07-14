@@ -26,6 +26,14 @@ li = []
 from fastapi import FastAPI, Form, Response
 from twilio.twiml.messaging_response import MessagingResponse
 
+
+from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
+
+model_name = "deepset/roberta-base-squad2"
+
+# a) Get predictions
+nlp = pipeline('question-answering', model=model_name, tokenizer=model_name)
+
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -42,54 +50,51 @@ def list_files(request: Request):
         "list_files.html", {"request": request, "files": files_paths}
     )
 
+import requests
+import PyPDF2
 @app.post("/whatsapp")
 async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form(...)):
-    if "count" in Body.lower():
-        link = MediaUrl0
-        print("counting")
-        name = link.split("/")[-1]+".png"
-        img = Image.open(requests.get(link, stream=True).raw)
-        if img.mode == 'RGBA':
-               img = image.convert('RGB')
-        img.save(name)
-        print("img saved")
-        img.close()
-        try:
-            img = cv2.imread(name)
-            box, label, count = cv.detect_common_objects(img)
-            output = draw_bbox(img, box, label, count)
-            count = len(label)
-        
-        except:
-          image = cv2.imread(name)
-          gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-          blur = cv2.GaussianBlur(gray, (11,11), 0)
-          canny = cv2.Canny(blur, 30, 150, 3)
-          dilated = cv2.dilate(canny, (1,1), iterations = 2)
-          (cnt, heirarchy) = cv2.findContours(dilated.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-          cv2.drawContours(image, cnt, -1, (0,255,0), 1)
-          output = image
-          count = len(cnt)-len(cnt)//2
-        
-        cv2.imwrite("static/"+name, output)
-        print('Count: ',count)
+    #if "count" in Body.lower():
+       # link = MediaUrl0
+    
+    def read_pdf_from_url(url):
+        response = requests.get(url)
+        file = open('temp.pdf', 'wb')
+        file.write(response.content)
+        file.close()
+        print("file saved")
+    
+        with open('temp.pdf', 'rb') as file:
+            reader = PyPDF2.PdfFileReader(file)
+            num_pages = reader.numPages
+            content = ''
+            
+            for page_num in range(num_pages):
+                page = reader.getPage(page_num)
+                content += page.extractText()
+            print("contend return")
+            return content
 
-        
-        #url = 'https://commonapi.onrender.com/ssebowaAI?query=scan' #text from user
-        #file = {'img': open(name,'rb')} #image from user
-        #resp = requests.post(url=url,files=file) 
-        #print(resp.json())
- 
-        #bot_resp = MessagingResponse()
-        #msg = bot_resp.message()
-                #replace the url 
-        #msg.media(resp.json())    
-        #return str(bot_resp)
-        response = MessagingResponse() 
-        msg = response.message()
-        msg.media("https://whatsapp-vz43.onrender.com/static/"+name)
-        msg.body('Count: '+str(count))
-        return Response(content=str(response), media_type="application/xml")
+    # Provide the URL of your PDF file
+    pdf_url = MediaUrl0
+    pdf_content = read_pdf_from_url(pdf_url)
+    #print(pdf_content)
+    def response(question):
+      QA_input = {
+          'question': question,
+          'context': str(pdf_content)
+      }
+      res = nlp(QA_input)
+      return res
+    resp = response(str(Body))
+    
+
+
+    response = MessagingResponse() 
+    msg = response.message()
+    #msg.media("https://whatsapp-vz43.onrender.com/static/"+name)
+    msg.body('answer':str(resp))
+    return Response(content=str(response), media_type="application/xml")
 
     
     
