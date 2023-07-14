@@ -11,3 +11,4 @@ opencv-python
 cvlib
 tensorflow
 transformers
+PyPDF2
