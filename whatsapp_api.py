@@ -72,7 +72,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
     
         with open('temp.pdf', 'rb') as file:
             reader = PyPDF2.PdfReader(file)
-            num_pages = reader.numPages
+            num_pages = len(reader.pages)
             content = ''
             
             for page_num in range(num_pages):
