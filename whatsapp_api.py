@@ -98,7 +98,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(...), Body: str = Form
             }
         )
 
-        return res
+        return str(data)
     print(Body)
     resp = model_response(str(Body))
     
