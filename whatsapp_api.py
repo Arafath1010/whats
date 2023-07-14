@@ -28,12 +28,12 @@ from fastapi import FastAPI, Form, Response
 from twilio.twiml.messaging_response import MessagingResponse
 
 
-from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
+#from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 
-model_name = "deepset/roberta-base-squad2"
+#model_name = "deepset/roberta-base-squad2"
 
 # a) Get predictions
-nlp = pipeline('question-answering', model=model_name, tokenizer=model_name)
+#nlp = pipeline('question-answering', model=model_name, tokenizer=model_name)
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
