@@ -56,7 +56,7 @@ import requests
 import json
 headers = {"Authorization": f"Bearer {'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'}"}
 API_URL = "https://api-inference.huggingface.co/models/deepset/roberta-base-squad2"
-import PyPDF2
+from PyPDF2 import PdfReader
 @app.post("/whatsapp")
 async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = Form(None)):
     #if "count" in Body.lower():
@@ -69,17 +69,14 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
             file.write(response.content)
             file.close()
             print("file saved")
-    
-        with open('temp.pdf', 'rb') as file:
-            reader = PyPDF2.PdfReader(file)
-            num_pages = len(reader.pages)
-            content = ''
-            
-            for page_num in range(1,num_pages):
-                page = reader.pages[num_pages]
-                content += page.extractText()
-            print("contend return")
-            return content
+        reader = PdfReader("temp.pdf")
+        number_of_pages = len(reader.pages)
+        text = ""
+        for i in range(number_of_pages):
+          page = reader.pages[i]
+          text = text + page.extract_text()
+        return text.replace('\n'," ")
+
 
     # Provide the URL of your PDF file
     pdf_url = MediaUrl0
