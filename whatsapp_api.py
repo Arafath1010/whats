@@ -96,7 +96,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
         
         payload = {
             "inputs": {
-                "query": "wich city containe high download",
+                "query": Body,
                 "table": table_dict,
             }
         }
