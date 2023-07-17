@@ -90,7 +90,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
             file.close()
             print("file saved",MediaUrl0)
             response = MessagingResponse() 
-            msg = response.message(): 
+            msg = response.message()
             msg.body(data['answer'])
             msg.body("please ask question to anlyze your data !")
             return Response(content=str(response), media_type="application/xml")
