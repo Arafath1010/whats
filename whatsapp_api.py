@@ -84,7 +84,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
             return json.loads(response.content.decode("utf-8"))
             
         if MediaUrl0 is not None:
-            response = requests.get(url)
+            response = requests.get(MediaUrl0)
             file = open('temp.csv', 'wb')
             file.write(response.content)
             file.close()
