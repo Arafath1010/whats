@@ -52,13 +52,72 @@ def list_files(request: Request):
     )
 
 import requests
-
+import csv
+import json
+import requests
 import json
 headers = {"Authorization": f"Bearer {'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'}"}
 API_URL = "https://api-inference.huggingface.co/models/deepset/roberta-base-squad2"
 from PyPDF2 import PdfReader
 @app.post("/whatsapp")
 async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = Form(None)):
+        def load_csv_data(csv_file):
+            with open(csv_file, "r") as file:
+                reader = csv.reader(file)
+                table = list(reader)
+            return table
+        
+        def convert_table_to_dict(table):
+            headers = table[0]
+            data = table[1:]
+            table_dict = {header: [] for header in headers}
+            for row in data:
+                for i, value in enumerate(row):
+                    table_dict[headers[i]].append(value)
+            return table_dict
+        
+        def query(payload):
+            headers = {"Authorization": f"Bearer {'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'}"}
+            API_URL = "https://api-inference.huggingface.co/models/google/tapas-base-finetuned-wtq"
+            data = json.dumps(payload)
+            response = requests.request("POST", API_URL, headers=headers, data=data)
+            return json.loads(response.content.decode("utf-8"))
+            
+        if MediaUrl0 is not None:
+            response = requests.get(url)
+            file = open('temp.csv', 'wb')
+            file.write(response.content)
+            file.close()
+            print("file saved",MediaUrl0)
+        
+        csv_file = "temp.csv"  # Replace with the path to your CSV file
+        table = load_csv_data(csv_file)
+        table_dict = convert_table_to_dict(table)
+        
+        payload = {
+            "inputs": {
+                "query": "wich city containe high download",
+                "table": table_dict,
+            }
+        }
+        
+        data = query(payload)
+        print(data)
+
+        response = MessagingResponse() 
+        msg = response.message()
+        #msg.media("https://whatsapp-vz43.onrender.com/static/"+name)
+        msg.body(data)
+        return Response(content=str(response), media_type="application/xml")
+    
+
+    
+    
+    
+    
+    # scanner codes
+
+'''
     #if "count" in Body.lower():
        # link = MediaUrl0
     
@@ -99,30 +158,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
             )
     
             return str(data)
-        print(Body)
-        
-        resp = model_response(str(Body))
-        response = MessagingResponse() 
-        msg = response.message()
-        #msg.media("https://whatsapp-vz43.onrender.com/static/"+name)
-        msg.body(resp)
-        return Response(content=str(response), media_type="application/xml")
-    
-
-
-    response = MessagingResponse() 
-    msg = response.message()
-    #msg.media("https://whatsapp-vz43.onrender.com/static/"+name)
-    msg.body(resp)
-    return Response(content=str(response), media_type="application/xml")
-
-    
-    
-    
-    
-    # scanner codes
-
-    
+        print(Body)'''
 
         
                 
