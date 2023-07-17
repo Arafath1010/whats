@@ -107,7 +107,10 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
         response = MessagingResponse() 
         msg = response.message()
         #msg.media("https://whatsapp-vz43.onrender.com/static/"+name)
-        msg.body(data)
+        try: 
+            msg.body(data['answer'])
+        except:
+            msg.body("please recheck the question !")
         return Response(content=str(response), media_type="application/xml")
     
 
