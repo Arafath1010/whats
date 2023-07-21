@@ -85,7 +85,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
             
         if MediaUrl0 is not None:
             response = requests.get(MediaUrl0)
-            file = open('temp.csv', 'wb')
+            file = open(From, 'wb')
             file.write(response.content)
             file.close()
             print("file saved",MediaUrl0)
@@ -94,7 +94,7 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
             msg.body("please ask question to anlyze your data !")
             return Response(content=str(response), media_type="application/xml")
         
-        csv_file = "temp.csv"  # Replace with the path to your CSV file
+        csv_file = From  # is a file name
         table = load_csv_data(csv_file)
         table_dict = convert_table_to_dict(table)
         
