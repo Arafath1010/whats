@@ -9,3 +9,4 @@ fastapi
 python-multipart
 PyPDF2
 pandas
+openpyxl
