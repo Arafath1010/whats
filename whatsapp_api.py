@@ -1,10 +1,7 @@
-from flask import Flask, request
-#torch
-#transformers
 from twilio.twiml.messaging_response import MessagingResponse
 import os
 import requests
-from PIL import Image
+#from PIL import Image
 #import cv2
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -20,43 +17,18 @@ import time
 
 
 
-
-global li
-li = []
-
 from fastapi import FastAPI, Form, Response
 from twilio.twiml.messaging_response import MessagingResponse
-
-
-#from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
-
-#model_name = "deepset/roberta-base-squad2"
-
-# a) Get predictions
-#nlp = pipeline('question-answering', model=model_name, tokenizer=model_name)
-
-app = FastAPI()
-#app.mount("/static", StaticFiles(directory="static"), name="static")
-
-#templates = Jinja2Templates(directory="templates")
-
-
-#@app.get("/static", response_class=HTMLResponse)
-#def list_files(request: Request):
-
-    #files = os.listdir("./static")
-    #files_paths = sorted([f"{request.url._url}/{f}" for f in files])
-    #print(files_paths)
-    #return templates.TemplateResponse(
-        #"list_files.html", {"request": request, "files": files_paths}
-    #)
-
 import requests
 import csv
 import json
 import requests
 import json
 import pandas as pd
+
+app = FastAPI()
+
+
 headers = {"Authorization": f"Bearer {'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'}"}
 API_URL = "https://api-inference.huggingface.co/models/deepset/roberta-base-squad2"
 @app.post("/whatsapp")
