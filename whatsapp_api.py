@@ -36,29 +36,29 @@ from twilio.twiml.messaging_response import MessagingResponse
 #nlp = pipeline('question-answering', model=model_name, tokenizer=model_name)
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
+#app.mount("/static", StaticFiles(directory="static"), name="static")
 
-templates = Jinja2Templates(directory="templates")
+#templates = Jinja2Templates(directory="templates")
 
 
-@app.get("/static", response_class=HTMLResponse)
-def list_files(request: Request):
+#@app.get("/static", response_class=HTMLResponse)
+#def list_files(request: Request):
 
-    files = os.listdir("./static")
-    files_paths = sorted([f"{request.url._url}/{f}" for f in files])
-    print(files_paths)
-    return templates.TemplateResponse(
-        "list_files.html", {"request": request, "files": files_paths}
-    )
+    #files = os.listdir("./static")
+    #files_paths = sorted([f"{request.url._url}/{f}" for f in files])
+    #print(files_paths)
+    #return templates.TemplateResponse(
+        #"list_files.html", {"request": request, "files": files_paths}
+    #)
 
 import requests
 import csv
 import json
 import requests
 import json
+import pandas as pd
 headers = {"Authorization": f"Bearer {'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'}"}
 API_URL = "https://api-inference.huggingface.co/models/deepset/roberta-base-squad2"
-from PyPDF2 import PdfReader
 @app.post("/whatsapp")
 async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = Form(None)):
         def load_csv_data(csv_file):
