@@ -93,11 +93,17 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
             msg = response.message()
             msg.body("please ask question to anlyze your data !")
             return Response(content=str(response), media_type="application/xml")
-        
-        csv_file = From  # is a file name
-        table = load_csv_data(csv_file)
-        table_dict = convert_table_to_dict(table)
-        
+        try:
+            csv_file = From  # is a file name
+            table = load_csv_data(csv_file)
+            table_dict = convert_table_to_dict(table)
+        except:
+            data_frame = pd.read_excel(From)
+            data_frame.to_csv(From, index=False)
+            csv_file = From  # is a file name
+            table = load_csv_data(csv_file)
+            table_dict = convert_table_to_dict(table)
+    
         payload = {
             "inputs": {
                 "query": Body,
