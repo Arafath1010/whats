@@ -25,7 +25,7 @@ import json
 import requests
 import json
 import pandas as pd
-
+import io
 
 from hugchat import hugchat
 from hugchat.login import Login
