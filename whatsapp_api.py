@@ -26,34 +26,24 @@ import requests
 import json
 import pandas as pd
 
+
+from hugchat import hugchat
+from hugchat.login import Login
+
+# Log in to huggingface and grant authorization to huggingchat
+sign = Login("arafathbict@gmail.com", "Bict@100")
+cookies = sign.login()
+
+# Create a ChatBot
+chatbot = hugchat.ChatBot(cookies=cookies.get_dict())  # or cookie_path="usercookies/<email>.json"
+bot_message = chatbot.chat("hi")
+
 app = FastAPI()
 
 
-headers = {"Authorization": f"Bearer {'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'}"}
-API_URL = "https://api-inference.huggingface.co/models/deepset/roberta-base-squad2"
+
 @app.post("/whatsapp")
 async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = Form(None)):
-        def load_csv_data(csv_file):
-            with open(csv_file, "r") as file:
-                reader = csv.reader(file)
-                table = list(reader)
-            return table
-        
-        def convert_table_to_dict(table):
-            headers = table[0]
-            data = table[1:]
-            table_dict = {header: [] for header in headers}
-            for row in data:
-                for i, value in enumerate(row):
-                    table_dict[headers[i]].append(value)
-            return table_dict
-        
-        def query(payload):
-            headers = {"Authorization": f"Bearer {'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'}"}
-            API_URL = "https://api-inference.huggingface.co/models/google/tapas-base-finetuned-wtq"
-            data = json.dumps(payload)
-            response = requests.request("POST", API_URL, headers=headers, data=data)
-            return json.loads(response.content.decode("utf-8"))
             
         if MediaUrl0 is not None:
             response = requests.get(MediaUrl0)
@@ -66,31 +56,30 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
             msg.body("please ask question to anlyze your data !")
             return Response(content=str(response), media_type="application/xml")
         try:
-            csv_file = From  # is a file name
-            table = load_csv_data(csv_file)
-            table_dict = convert_table_to_dict(table)
+                csv_file_path = From
+                
+                
+                # Convert CSV data to a string using io.StringIO
+                csv_output = io.StringIO()
+                with open(csv_file_path, "r", encoding="latin-1") as file:
+                    csv_reader = csv.reader(file)
+                    csv_writer = csv.writer(csv_output)
+                    csv_writer.writerows(csv_reader)
+                csv_string = csv_output.getvalue()
         except:
-            data_frame = pd.read_excel(From)
-            data_frame.to_csv(From, index=False)
-            csv_file = From  # is a file name
-            table = load_csv_data(csv_file)
-            table_dict = convert_table_to_dict(table)
-    
-        payload = {
-            "inputs": {
-                "query": Body,
-                "table": table_dict,
-            }
-        }
+                    response = MessagingResponse() 
+                    msg = response.message()
+                    msg.body("upload your data file ( csv ) ")
+                    return Response(content=str(response), media_type="application/xml")
         
-        data = query(payload)
-        print(data)
+        bot_message = chatbot.chat(csv_string+"  "+Body)
+        bot_message
 
         response = MessagingResponse() 
         msg = response.message()
         #msg.media("https://whatsapp-vz43.onrender.com/static/"+name)
         try: 
-            msg.body(data['answer'])
+            msg.body(bot_message)
         except:
             msg.body("please recheck the question !")
         return Response(content=str(response), media_type="application/xml")
