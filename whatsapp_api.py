@@ -55,22 +55,15 @@ async def chat(From: str = Form(...),MediaUrl0:str = Form(None), Body: str = For
             msg = response.message()
             msg.body("please ask question to anlyze your data !")
             return Response(content=str(response), media_type="application/xml")
-        try:
-                csv_file_path = From
-                
-                
-                # Convert CSV data to a string using io.StringIO
-                csv_output = io.StringIO()
-                with open(csv_file_path, "r", encoding="latin-1") as file:
+
+        csv_file_path = From
+        csv_output = io.StringIO()
+        with open(csv_file_path, "r", encoding="latin-1") as file:
                     csv_reader = csv.reader(file)
                     csv_writer = csv.writer(csv_output)
                     csv_writer.writerows(csv_reader)
-                csv_string = csv_output.getvalue()
-        except:
-                    response = MessagingResponse() 
-                    msg = response.message()
-                    msg.body("upload your data file ( csv ) ")
-                    return Response(content=str(response), media_type="application/xml")
+        csv_string = csv_output.getvalue()
+
         
         bot_message = chatbot.chat(csv_string+"  "+Body)
         bot_message
