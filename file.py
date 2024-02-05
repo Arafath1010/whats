@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Request
 #import cvlib as cv
 #from cvlib.object_detection import draw_bbox
+key = "c2stQzZwOU9oWDlXMnVqOFdacVJMSk1UM0JsYmtGSkh3U3NzbkVHU1psam9QTVZ3RXhL"
 
 import numpy as np
 import time
